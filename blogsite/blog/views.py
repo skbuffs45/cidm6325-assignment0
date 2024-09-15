@@ -3,11 +3,12 @@ from .models import Post
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from .forms import CommentForm, EmailPostForm, SearchForm
 from django.core.mail import send_mail
 from taggit.models import Tag
 from django.db.models import Count
+from django.contrib.postgres.search import TrigramSimilarity
 
 # Create your views here.
 def post_list(request, tag_slug=None):
@@ -154,9 +155,10 @@ def post_search(request):
             query = form.cleaned_data['query']
             results = (
                 Post.published.annotate(
-                    search=SearchVector('title', 'body'),
+                    similarity=TrigramSimilarity('title', query),
                 )
-                .filter(search=query)
+                .filter(similarity__gt=0.1)
+                .order_by('-similarity')
             )
     return render(
         request,
