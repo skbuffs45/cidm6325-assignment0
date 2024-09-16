@@ -9,6 +9,11 @@ class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
 
+class PublishedRecipeManager(models.Manager):
+    def get_queryset(self):
+        return (
+            super().get_queryset().filter(status=Recipe.Status.PUBLISHED)
+        )
 
 class Post(models.Model):
     class Status(models.TextChoices):
@@ -69,3 +74,4 @@ class Comment(models.Model):
         ]
     def __str__(self):
         return f'Comment by {self.name} on {self.post}'
+    
