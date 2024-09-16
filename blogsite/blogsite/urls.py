@@ -32,5 +32,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("blog/", include("blog.urls", namespace="blog")),
     path("recipesharing/", include("recipesharing.urls", namespace="recipesharing")),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    # path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ]

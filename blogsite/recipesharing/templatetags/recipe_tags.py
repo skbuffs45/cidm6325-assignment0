@@ -13,7 +13,7 @@ def total_recipes():
     return Recipe.published.count()
 
 
-@register.inclusion_tag('recipesharing/recipe/latest_posts.html')
+@register.inclusion_tag('recipesharing/recipe/latest_recipes.html')
 def show_latest_recipes(count=5):
     latest_recipes = Recipe.published.order_by('-publish')[:count]
     return {'latest_recipes': latest_recipes}

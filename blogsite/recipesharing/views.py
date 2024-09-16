@@ -38,7 +38,7 @@ def recipe_list(request, tag_slug=None):
     )
 
 
-def recipe_detail(request, year, month, day, post):
+def recipe_detail(request, year, month, day, recipe):
     recipe = get_object_or_404(
         Recipe,
         status=Recipe.Status.PUBLISHED,
@@ -169,3 +169,4 @@ def recipe_search(request):
             'results': results
         }
     )
+

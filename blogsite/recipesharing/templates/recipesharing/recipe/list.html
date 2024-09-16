@@ -1,5 +1,5 @@
 {% extends "recipesharing/base.html" %}
-{% load recipesharing_tags %}
+{% load recipe_tags %}
 
 {% block title %}My Recipes{% endblock %}
 
@@ -27,5 +27,5 @@
 </p>
 {{ recipe.body|markdown|truncatewords_html:30 }}
 {% endfor %}
-{% include "pagination.html" with page=posts %}
+{% include "pagination.html" with page=recipes %}
 {% endblock %}
