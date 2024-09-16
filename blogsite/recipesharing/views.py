@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404, render
-from .models import Recipe
+from .models import Recipe, Review
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-from .forms import CommentForm, EmailRecipeForm, SearchForm
+from .forms import CommentForm, EmailRecipeForm, SearchForm, ReviewForm
 from django.core.mail import send_mail
 from taggit.models import Tag
 from django.db.models import Count
@@ -50,6 +50,10 @@ def recipe_detail(request, year, month, day, recipe):
     comments = recipe.comments.filter(active=True)
     # Form for users to comment
     form = CommentForm()
+    # List of active ratings
+    reviews = recipe.reviews.filter(active=True)
+    # Form for ratings
+    form = ReviewForm()
     # List of similar posts
     recipe_tags_ids = recipe.tags.values_list('id', flat=True)
     similar_recipes = Recipe.published.filter(tags__in=recipe_tags_ids).exclude(id=recipe.id)
@@ -61,7 +65,8 @@ def recipe_detail(request, year, month, day, recipe):
             'recipe': recipe,
             'comments': comments,
             'form': form,
-            'similar_recipes': similar_recipes
+            'similar_recipes': similar_recipes,
+            'reviews': reviews
         }
     )
 
@@ -170,3 +175,29 @@ def recipe_search(request):
         }
     )
 
+@require_POST
+def recipe_review(request, recipe_id):
+    recipe = get_object_or_404(
+        Recipe,
+        id=recipe_id,
+        status=Recipe.Status.PUBLISHED
+    )
+    review = None
+    # A rating was posted
+    form = ReviewForm(data=request.POST)
+    if form.is_valid():
+        # Create a Comment object without saving it to the database
+        review = form.save(commit=False)
+        # Assign the post to the comment
+        review.recipe = recipe
+        # Save the comment to the database
+        review.save()
+    return render(
+        request,
+        'recipesharing/recipe/review.html',
+        {
+            'recipe': recipe,
+            'form': form,
+            'review': review
+        }
+    )

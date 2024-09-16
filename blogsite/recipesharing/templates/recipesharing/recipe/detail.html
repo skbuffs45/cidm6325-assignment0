@@ -40,5 +40,25 @@ There are no similar recipes yet.
 {% empty %}
 <p>There are no comments yet.</p>
 {% endfor %}
+
+{% with reviews.count as total_reviews %}
+<h2>
+    {{ total_reviews }} review{{ total_reviews|pluralize }}
+</h2>
+{% endwith %}
+{% for review in reviews %}
+<div class="review">
+    <p class="info">
+        Review {{ forloop.counter }} by {{ review.name }}
+        {{ review.created }}
+    </p>
+    {{ review.body|linebreaks }}
+</div>
+{% empty %}
+<p>There are no reviews yet.</p>
+{% endfor %}
 {% include "recipesharing/recipe/includes/comment_form.html" %}
+
+{% include "recipesharing/recipe/includes/review_form.html" %}
+
 {% endblock %}

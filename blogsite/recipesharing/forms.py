@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment, Rating
+from .models import Comment, Review
 
 class EmailRecipeForm(forms.Form):
     name = forms.CharField(max_length=25)
@@ -20,5 +20,5 @@ class SearchForm(forms.Form):
 
 class ReviewForm(forms.ModelForm):
     class Meta:
-        model = Rating
-        fields = ['subject', 'review', 'rating']
+        model = Review
+        fields = ['name', 'email', 'body']
