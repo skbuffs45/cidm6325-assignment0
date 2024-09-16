@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from .models import Post, Recipe
+from .models import Post
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
