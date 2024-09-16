@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Comment, Post, Recipe
+from .models import Comment, Post
 
 
 # Register your models here.
