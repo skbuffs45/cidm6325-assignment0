@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 SITE_ID = 1
 
 INSTALLED_APPS = [
+    "recipesharing.apps.RecipesharingConfig",
     "account.apps.AccountConfig",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -46,11 +47,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.postgres",
     "taggit",
-    "blog.apps.BlogConfig",
-    "recipesharing.apps.RecipesharingConfig",
     "social_django",
     'django_extensions',
+    'recipeimages.apps.RecipeimagesConfig',
     'images.apps.ImagesConfig',
+    "blog.apps.BlogConfig",
+    # "recipesharing.apps.RecipesharingConfig",
     'easy_thumbnails',
     'actions.apps.ActionsConfig',
     'debug_toolbar',

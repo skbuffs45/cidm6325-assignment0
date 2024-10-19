@@ -1,28 +1,23 @@
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
-from django.urls import reverse
 
-class Image(models.Model):
+class RecipeImage(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name='images_created',
+        related_name='recipeimages_created',
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, blank=True)
-    field1 = models.CharField(max_length=200, blank=True)
-    field2 = models.CharField(max_length=200, blank=True)
     url = models.URLField(max_length=2000)
-    image = models.ImageField(upload_to='images/%Y/%m/%d/')
+    recipeimage = models.ImageField(upload_to='recipeimages/%Y/%m/%d/')
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    users_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='images_liked', blank=True)
-    total_likes = models.PositiveIntegerField(default=0)
+    # users_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='recipeimages_liked', blank=True)
     class Meta:
         indexes = [
             models.Index(fields=['-created']),
-            models.Index(fields=['-total_likes']),
         ]
         ordering = ['-created']
     def __str__(self):
@@ -32,4 +27,4 @@ class Image(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
     def get_absolute_url(self):
-        return reverse('images:detail', args=[self.id, self.slug])
+        return reverse('recipeimages:detail', args=[self.slug])

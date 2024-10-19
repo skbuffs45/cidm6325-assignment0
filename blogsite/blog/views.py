@@ -9,6 +9,16 @@ from django.core.mail import send_mail
 from taggit.models import Tag
 from django.db.models import Count
 from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.auth.decorators import login_required
+import redis
+from django.conf import settings
+
+# connect to redis
+r = redis.Redis(
+    host=settings.REDIS_HOST,
+    port=settings.REDIS_PORT,
+    db=settings.REDIS_DB
+)
 
 # Create your views here.
 def post_list(request, tag_slug=None):

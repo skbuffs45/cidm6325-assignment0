@@ -9,6 +9,9 @@ from django.core.mail import send_mail
 from taggit.models import Tag
 from django.db.models import Count
 from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def recipe_list(request, tag_slug=None):
@@ -201,3 +204,4 @@ def recipe_review(request, recipe_id):
             'review': review
         }
     )
+

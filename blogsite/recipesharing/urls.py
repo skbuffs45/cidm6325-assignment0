@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .feeds import LatestRecipesFeed
+from django.contrib.auth import views as auth_views
 
 app_name = 'recipesharing'
 urlpatterns = [
