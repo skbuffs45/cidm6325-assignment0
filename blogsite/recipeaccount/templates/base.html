@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'css/recipesharing.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header">
+        <span class="logo">Recipes</span>
+        {% if request.user.is_authenticated %}
+        <ul class="menu">
+            {% if section == "dashboard" %}
+            <li class="selected">
+            </li>
+            {% endif %}
+            <a href="{% url 'recipedashboard' %}">My dashboard</a>
+            {% if section == "images" %}
+            <li class="selected">
+            </li>
+            {% endif %}
+            <a href="{% url 'recipeimages:list' %}">Images</a>
+            {% if section == "Recipes" %}
+            <li class="selected">
+            </li>
+            {% endif %}
+            <a href="{% url 'recipesharing:recipe_list' %}">Recipes</a>
+        </ul>
+        {% endif %}
+        <span class="user">
+            {% if request.user.is_authenticated %}
+            Hello {{ request.user.first_name|default:request.user.username }},
+            <form action="{% url 'recipelogout' %}" method="post">
+                <button type="submit">Logout</button>
+                {% csrf_token %}
+            </form>
+            {% else %}
+            <a href="{% url 'recipelogin' %}">Log-in</a>
+            {% endif %}
+        </span>
+    </div>
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script>
+        const csrftoken = Cookies.get('csrftoken');
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // DOM loaded
+            {% block domready %}
+            {% endblock %}
+        })
+    </script>
+</body>
+
+</html>

@@ -7,7 +7,7 @@ from django.utils.text import slugify
 class RecipeImageCreateForm(forms.ModelForm):
     class Meta:
         model = RecipeImage
-        fields = ['title', 'url', 'description']
+        fields = ['title', 'url', 'description', 'tags']
         widgets = {
             'url': forms.HiddenInput,
         }

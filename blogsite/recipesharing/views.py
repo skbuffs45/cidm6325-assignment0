@@ -12,6 +12,7 @@ from django.contrib.postgres.search import TrigramSimilarity
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from recipeimages.models import RecipeImage
 
 # Create your views here.
 def recipe_list(request, tag_slug=None):
@@ -61,6 +62,13 @@ def recipe_detail(request, year, month, day, recipe):
     recipe_tags_ids = recipe.tags.values_list('id', flat=True)
     similar_recipes = Recipe.published.filter(tags__in=recipe_tags_ids).exclude(id=recipe.id)
     similar_recipes = similar_recipes.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
+    # List of similar images
+    # similar_images = {
+    #     RecipeImage.objects.get(id=1),
+    #  }
+    recipeimage_tags_ids = RecipeImage.tags.all().values_list('id', flat=True)
+    similar_images = RecipeImage.objects.filter(tags__in=recipe_tags_ids).exclude(id=recipe.id)
+    # similar_images = similar_images.annotate(same_tags=Count('tags')).order_by('-same_tags')[:4]
     return render(
         request,
         'recipesharing/recipe/detail.html',
@@ -69,7 +77,8 @@ def recipe_detail(request, year, month, day, recipe):
             'comments': comments,
             'form': form,
             'similar_recipes': similar_recipes,
-            'reviews': reviews
+            'reviews': reviews,
+            'similar_images': similar_images,
         }
     )
 

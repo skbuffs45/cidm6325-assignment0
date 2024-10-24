@@ -17,15 +17,15 @@ boxHtml = `
   <div id="recipebookmarklet">
     <a href="#" id="close">&times;</a>
     <h1>Select an image to bookmark:</h1>
-    <div class="images"></div>
+    <div class="recipeimages"></div>
    </div>`;
 body.innerHTML += boxHtml;
 
 function recipebookmarkletLaunch() {
     recipebookmarklet = document.getElementById('recipebookmarklet');
-    var imagesFound = recipebookmarklet.querySelector('.images');
+    var recipeimagesFound = recipebookmarklet.querySelector('.recipeimages');
     // clear images found
-    imagesFound.innerHTML = '';
+    recipeimagesFound.innerHTML = '';
     // display bookmarklet
     recipebookmarklet.style.display = 'block';
     // close event
@@ -34,22 +34,22 @@ function recipebookmarkletLaunch() {
             recipebookmarklet.style.display = 'none'
         });
     // find images in the DOM with the minimum dimensions
-    images = document.querySelectorAll('img[src$=".jpg"], img[src$=".jpeg"], img[src$=".png"]');
-    images.forEach(image => {
-        if (image.naturalWidth >= minWidth
-            && image.naturalHeight >= minHeight) {
-            var imageFound = document.createElement('img');
-            imageFound.src = image.src;
-            imagesFound.append(imageFound);
+    recipeimages = document.querySelectorAll('img[src$=".jpg"], img[src$=".jpeg"], img[src$=".png"]');
+    recipeimages.forEach(recipeimage => {
+        if (recipeimage.naturalWidth >= minWidth
+            && recipeimage.naturalHeight >= minHeight) {
+            var recipeimageFound = document.createElement('img');
+            recipeimageFound.src = recipeimage.src;
+            recipeimagesFound.append(recipeimageFound);
         }
     })
     // select image event
-    imagesFound.querySelectorAll('img').forEach(image => {
-        image.addEventListener('click', function (event) {
-            imageSelected = event.target;
+    recipeimagesFound.querySelectorAll('img').forEach(recipeimage => {
+        recipeimage.addEventListener('click', function (event) {
+            recipeimageSelected = event.target;
             recipebookmarklet.style.display = 'none';
             window.open(siteUrl + 'recipeimages/create/?url='
-                + encodeURIComponent(imageSelected.src)
+                + encodeURIComponent(recipeimageSelected.src)
                 + '&title='
                 + encodeURIComponent(document.title),
                 '_blank');

@@ -14,6 +14,37 @@
         {% endblock %}
     </div>
     <div id="sidebar">
+        <span class="user">
+            {% if request.user.is_authenticated %}
+            Hello {{ request.user.first_name|default:request.user.username }},
+            <form action="{% url 'recipelogout' %}" method="post">
+                <button type="submit">Logout</button>
+                {% csrf_token %}
+            </form>
+            {% else %}
+            <a href="{% url 'recipelogin' %}">Log-in</a>
+            {% endif %}
+        </span>
+
+        {% if request.user.is_authenticated %}
+        <ul class="menu">
+            {% if section == "dashboard" %}
+            <li class="selected">
+            </li>
+            {% endif %}
+            <a href="{% url 'recipedashboard' %}">My dashboard</a>
+            {% if section == "images" %}
+            <li class="selected">
+            </li>
+            {% endif %}
+            <a href="{% url 'recipeimages:list' %}">Images</a>
+            {% if section == "Recipes" %}
+            <li class="selected">
+            </li>
+            {% endif %}
+            <a href="{% url 'recipesharing:recipe_list' %}">Recipes</a>
+        </ul>
+        {% endif %}
         <h2>My Recipes</h2>
         <p>These are my recipes I want to share with you. I've created {% total_recipes %} recipes so far.</p>
         <p>
@@ -32,12 +63,6 @@
                 <a href="{{ recipe.get_absolute_url }}">{{ recipe.title }}</a>
             </li>
             {% endfor %}
-        </ul>
-        {% with total_recipeimages_created=request.user.recipeimages_created.count %}
-        <p>You have bookmarked {{ total_recipeimages_created }} image{{ total_recipeimages_created|pluralize }}.</p>
-        {% endwith %}
-        <p>Drag the following button to your bookmarks toolbar to bookmark images from other websites → <a
-                href="javascript:{% include 'recipebookmarklet_launcher.js' %}" class="button">Recipes Bookmark</a></p>
     </div>
 </body>
 

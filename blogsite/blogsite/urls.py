@@ -40,6 +40,7 @@ urlpatterns = [
     path('blog/', include('blog.urls', namespace='blog')),
     path('__debug__/', include('debug_toolbar.urls')),
     path('recipeimages/', include('recipeimages.urls', namespace='recipeimages')),
+    path('recipeaccount/', include('recipeaccount.urls')),
 ]
 
 if settings.DEBUG:

@@ -24,6 +24,19 @@
 There are no similar recipes yet.
 {% endfor %}
 
+{% load thumbnail %}
+<h2>Similar images</h2>
+{% comment %}{{ len(similar_images) }}{% endcomment %}
+{% for recipeimage in similar_images %}
+<p>
+    <a href="{{ recipeimage.recipeimage.url }}">
+        <img src="{% thumbnail recipeimage.recipeimage 300x0 %}" class="recipeimage-detail">
+    </a>
+</p>
+{% empty %}
+There are no similar images yet.
+{% endfor %}
+
 {% with comments.count as total_comments %}
 <h2>
     {{ total_comments }} comment{{ total_comments|pluralize }}

@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 SITE_ID = 1
 
 INSTALLED_APPS = [
+    "recipeaccount.apps.RecipeaccountConfig",
     "recipesharing.apps.RecipesharingConfig",
     "account.apps.AccountConfig",
     "django.contrib.admin",
@@ -154,9 +155,13 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+# LOGIN_REDIRECT_URL = 'dashboard'
+# LOGIN_URL = 'login'
+# LOGOUT_URL = 'logout'
+
+LOGIN_REDIRECT_URL = 'recipedashboard'
+LOGIN_URL = 'recipelogin'
+LOGOUT_URL = 'recipelogout'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

@@ -1,0 +1,25 @@
+{% load thumbnail %}
+{% for recipeimage in recipeimages %}
+<div class="recipeimage">
+    <a href="{{ recipeimage.get_absolute_url }}">
+        {% thumbnail recipeimage.recipeimage 300x300 crop="smart" as im %}
+        <a href="{{ recipeimage.get_absolute_url }}">
+            <img src="{{ im.url }}">
+        </a>
+    </a>
+    <div class="info">
+        <a href="{{ recipeimage.get_absolute_url }}" class="title">
+            {{ recipeimage.title }}
+        </a>
+    </div>
+
+    <p class="tags">
+        Tags:
+        {% for tag in recipeimage.tags.all %}
+        <a href="{% url 'recipeimages:recipeimage_list_by_tag' tag.slug %}">
+            {{ tag.name }}
+        </a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+</div>
+{% endfor %}
