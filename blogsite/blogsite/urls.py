@@ -41,6 +41,10 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('recipeimages/', include('recipeimages.urls', namespace='recipeimages')),
     path('recipeaccount/', include('recipeaccount.urls')),
+    path('recipecart/', include('recipecart.urls', namespace='recipecart')),
+    path('recipeorders/', include('recipeorders.urls', namespace='recipeorders')),
+    path('recipepayment/', include('recipepayment.urls', namespace='recipepayment')),
+    path('', include('recipeshop.urls', namespace='recipeshop')),
 ]
 
 if settings.DEBUG:

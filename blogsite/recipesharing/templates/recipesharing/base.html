@@ -43,6 +43,11 @@
             </li>
             {% endif %}
             <a href="{% url 'recipesharing:recipe_list' %}">Recipes</a>
+            {% if section == "shop" %}
+            <li class="selected">
+            </li>
+            {% endif %}
+            <a href="{% url 'recipeshop:product_list' %}">Buy My Recipe Books</a>
         </ul>
         {% endif %}
         <h2>My Recipes</h2>

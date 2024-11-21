@@ -57,6 +57,10 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'actions.apps.ActionsConfig',
     'debug_toolbar',
+    'recipecart.apps.RecipecartConfig',
+    'recipeorders.apps.RecipeordersConfig',
+    'recipepayment.apps.RecipepaymentConfig',
+    'recipeshop.apps.RecipeshopConfig',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +87,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "recipecart.context_processors.cart",
             ],
         },
     },
@@ -147,12 +152,12 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Email server configuration
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # LOGIN_REDIRECT_URL = 'dashboard'
@@ -206,3 +211,10 @@ INTERNAL_IPS = [
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
+
+CART_SESSION_ID = 'cart'
+
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+STRIPE_API_VERSION = '2024-04-10'
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET')
