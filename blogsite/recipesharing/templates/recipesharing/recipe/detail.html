@@ -15,6 +15,12 @@
     </a>
 </p>
 
+{% if section == "shop" %}
+<li class="selected">
+</li>
+{% endif %}
+<a href="{% url 'recipeshop:product_list' %}">Checkout My Recipe Books</a>
+
 <h2>Similar recipes</h2>
 {% for recipe in similar_recipes %}
 <p>
