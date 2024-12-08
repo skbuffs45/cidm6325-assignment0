@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Portfolios{% endblock %}
+{% block content %}
+  <h1>My Portfolios</h1>
+  <div class="module">
+    {% for portfolio in object_list %}
+      <div class="course-info">
+        <h3>{{ portfolio.title }}</h3>
+        <p>
+          <a href="{% url 'portfolios:portfolio_edit' portfolio.id %}">Edit</a>
+          <a href="{% url 'portfolios:portfolio_delete' portfolio.id %}">Delete</a>
+          {% if portfolio.portfoliocontents.count >= 0 %}
+          <a href="{% url 'portfolios:portfolio_content_list' portfolio.id %}">
+            Manage contents
+          </a>
+        {% endif %}
+        </p>
+      </div>
+    {% empty %}
+      <p>You haven't created any portfolios yet.</p>
+    {% endfor %}
+    <p>
+      <a href="{% url 'portfolios:portfolio_create' %}" class="button">Create new portfolio</a>
+    </p>
+  </div>
+{% endblock %}

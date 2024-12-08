@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load portfolio %}
+{% block title %}
+  Portfolio {{ portfolio.order|add:1 }}: {{ portfolio.title }}
+{% endblock %}
+{% block content %}
+{% with course=portfolio.course %}
+  <h1>Course "{{ course.title }}"</h1>
+  <div class="contents">
+    <h3>Portfolios</h3>
+    <ul id="modules">
+      {% for p in course.portfolios.all %}
+        <li data-id="{{ p.id }}" {% if p == portfolio %}
+         class="selected"{% endif %}>
+          <a href="{% url 'portfolios:portfolio_content_list' p.id %}">
+            <span>
+              Portfolio <span class="order">{{ p.order|add:1 }}</span>
+            </span>
+            <br>
+            {{ p.title }}
+          </a>
+        </li>
+      {% empty %}
+        <li>No portfolios yet.</li>
+      {% endfor %}
+    </ul>
+    <p><a href="{% url 'portfolios:course_portfolio_update' portfolio.id %}">
+    Edit portfolios</a></p>
+  </div>
+  <div class="module">
+    <h2>Portfolio {{ portfolio.order|add:1 }}: {{ portfolio.title }}</h2>
+    <h3>Portfolio contents:</h3>
+    <div id="module-contents">
+      {% for content in portfolio_contents %}
+        <div data-id="{{ content.id }}">
+          {% with item=content.item %}
+          <p>{{ item }} ({{ item|model_name }})</p>
+          <a href="{% url 'portfolios:portfolio_content_update' portfolio.id item|model_name item.id %}">
+            Edit
+          </a>
+            <form action="{% url 'portfolios:portfolio_content_delete' portfolio.id %}"
+             method="post">
+              <input type="submit" value="Delete">
+              {% csrf_token %}
+            </form>
+          {% endwith %}
+        </div>
+      {% empty %}
+        <p>This portfolio has no contents yet.</p>
+      {% endfor %}
+    </div>
+    <h3>Add new content:</h3>
+    <ul class="content-types">
+      <li>
+        <a href="{% url 'portfolios:portfolio_content_create' portfolio.id 'portfoliotext' %}">
+          Text
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'portfolios:portfolio_content_create' portfolio.id 'portfolioimage' %}">
+          Image
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'portfolios:portfolio_content_create' portfolio.id 'portfoliovideo' %}">
+          Video
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'portfolios:portfolio_content_create' portfolio.id 'portfoliofile' %}">
+          File
+        </a>
+      </li>
+    </ul>
+  </div>
+{% endwith %}
+{% endblock %}
